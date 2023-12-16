@@ -50,6 +50,10 @@ fn __solution1(input: Vec<String>) {
 }
 
 pub(crate) fn _solution2(){
+    let numbers = "one|two|three|four|five|six|seven|eight|nine";
+    for (i, n) in numbers.split("|").enumerate() {
+        assert_eq!(__solution2(vec![String::from(n)]), (i+1)*10+i+1);
+    }
     assert_eq!(__solution2(vec![String::from("Two0")]), 22);
     assert_eq!(__solution2(vec![String::from("2Zero30")]), 23);
     assert_eq!(__solution2(vec![String::from("zero3")]), 33);
@@ -61,7 +65,7 @@ pub(crate) fn _solution2(){
     println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1")));
 }
 
-fn __solution2(input: Vec<String>) -> u128{
+fn __solution2(input: Vec<String>) -> usize{
     let mut set : HashMap<String, usize>= HashMap::new();
     let numbers = "one|two|three|four|five|six|seven|eight|nine";
     //set.insert(String::from("0"), 0);
@@ -72,7 +76,7 @@ fn __solution2(input: Vec<String>) -> u128{
 
     let re = Regex::new(&format!(r"({}|[1-9])", numbers)).unwrap();
 
-    let mut acc:u128= 0;
+    let mut acc:usize= 0;
 
     for (index, line) in input.iter().enumerate() {
         let lower_case_line = line.to_lowercase();
@@ -80,7 +84,7 @@ fn __solution2(input: Vec<String>) -> u128{
         let start = captures[0];
         let end = captures[captures.len()-1];
         let digit = set.get(start).unwrap() * 10 + set.get(end).unwrap();
-        acc += digit as u128;
+        acc += digit;
         println!("#{} line: {}, start: {}, end: {} digit: {} acc: {}", index, line, start, end, digit, acc);
     }
     return acc;
