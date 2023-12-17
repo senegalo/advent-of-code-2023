@@ -74,14 +74,14 @@ fn test_solution_2(){
     assert_eq!(__solution2(vec![String::from("nineight")]), 98);
     assert_eq!(__solution2(vec![String::from("eighthree")]), 83);
     assert_eq!(__solution2(vec![String::from("nineeight")]), 98);
-    assert_eq!(__solution2(vec![String::from("eeeght")]), 98);
+    assert_eq!(__solution2(vec![String::from("eeeight")]), 88);
     assert_eq!(__solution2(vec![String::from("oooeeone")]), 11);
 }
 
 pub(crate) fn _solution2(){
     test_solution_2();
-    //println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1-test2")));
-    //println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1")));
+    println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1-test2")));
+    println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1")));
 }
 
 fn __solution2(input: Vec<String>) -> usize{
@@ -100,10 +100,10 @@ fn __solution2(input: Vec<String>) -> usize{
     for (index, line) in input.iter().enumerate() {
         print!("#{} line: {}, ", index, line);
         let lower_case_line = line.to_lowercase();
-        let start_captures: Vec<_>= re_start.captures_iter(&lower_case_line).map(|c| c.extract::<1>().0).collect();
-        let end_captures: Vec<_>= re_end.captures_iter(&lower_case_line).map(|c| c.extract::<1>().0).collect();
-        let start = start_captures[0];
-        let end = end_captures[0];
+        let start_captures: Vec<_>= re_start.captures_iter(&lower_case_line).map(|c| c.extract::<1>().1).collect();
+        let end_captures: Vec<_>= re_end.captures_iter(&lower_case_line).map(|c| c.extract::<1>().1).collect();
+        let start = start_captures[0][0];
+        let end = end_captures[0][0];
         print!("start: {}, end: {}, ", start, end);
         let digit = set.get(start).unwrap() * 10 + set.get(end).unwrap();
         acc += digit;
