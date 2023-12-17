@@ -63,7 +63,19 @@ fn test_solution_2(){
         assert_eq!(__solution2(vec![format!("{}lkj1123456789sdfklj{}", i.to_string(), n)]), c);
         assert_eq!(__solution2(vec![format!("{}lkjonetwothreefourfklj{}", i.to_string(), n)]), c);
         assert_eq!(__solution2(vec![format!("{}lkjonetwo98fourfklj{}", i.to_string(), n)]), c);
+        assert_eq!(__solution2(vec![format!("lkj{}onetwo98four{}fklj", i.to_string(), n)]), c);
+        assert_eq!(__solution2(vec![format!("lkjsa{}dfklj", n)]), c);
+        assert_eq!(__solution2(vec![format!("lkjsa{}dfklj", i.to_string())]), c);
+        assert_eq!(__solution2(vec![format!("lkjsa{}dfklj", i.to_string())]), c);
     }
+
+    assert_eq!(__solution2(vec![String::from("twoone")]), 21);
+    assert_eq!(__solution2(vec![String::from("eighttwo")]), 82);
+    assert_eq!(__solution2(vec![String::from("nineight")]), 98);
+    assert_eq!(__solution2(vec![String::from("eighthree")]), 83);
+    assert_eq!(__solution2(vec![String::from("nineeight")]), 98);
+    assert_eq!(__solution2(vec![String::from("eeeght")]), 98);
+    assert_eq!(__solution2(vec![String::from("oooeeone")]), 11);
 }
 
 pub(crate) fn _solution2(){
@@ -80,18 +92,22 @@ fn __solution2(input: Vec<String>) -> usize{
         set.insert((index).to_string(), index);
     }
 
-    let re = Regex::new(&format!(r"({}|[0-9])", numbers)).unwrap();
+    let re_start = Regex::new(&format!(r"({}|[0-9])", numbers)).unwrap();
+    let re_end= Regex::new(&format!(r".*({}|[0-9])", numbers)).unwrap();
 
     let mut acc:usize= 0;
 
     for (index, line) in input.iter().enumerate() {
+        print!("#{} line: {}, ", index, line);
         let lower_case_line = line.to_lowercase();
-        let captures: Vec<_>= re.captures_iter(&lower_case_line).map(|c| c.extract::<1>().0).collect();
-        let start = captures[0];
-        let end = captures[captures.len()-1];
+        let start_captures: Vec<_>= re_start.captures_iter(&lower_case_line).map(|c| c.extract::<1>().0).collect();
+        let end_captures: Vec<_>= re_end.captures_iter(&lower_case_line).map(|c| c.extract::<1>().0).collect();
+        let start = start_captures[0];
+        let end = end_captures[0];
+        print!("start: {}, end: {}, ", start, end);
         let digit = set.get(start).unwrap() * 10 + set.get(end).unwrap();
         acc += digit;
-        println!("#{} line: {}, start: {}, end: {} digit: {} acc: {}", index, line, start, end, digit, acc);
+        println!("digit: {} acc: {}", digit, acc);
     }
     return acc;
 }
