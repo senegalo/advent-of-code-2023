@@ -49,32 +49,38 @@ fn __solution1(input: Vec<String>) {
 
 }
 
-pub(crate) fn _solution2(){
-    let numbers = "one|two|three|four|five|six|seven|eight|nine";
+fn test_solution_2(){
+    let numbers = "zero|one|two|three|four|five|six|seven|eight|nine";
     for (i, n) in numbers.split("|").enumerate() {
-        assert_eq!(__solution2(vec![String::from(n)]), (i+1)*10+i+1);
+        let c = i*10+i;
+        assert_eq!(__solution2(vec![String::from(n)]), c);
+        assert_eq!(__solution2(vec![String::from(n), String::from(n)]), c*2);
+        assert_eq!(__solution2(vec![i.to_string()]), c);
+        assert_eq!(__solution2(vec![i.to_string(), i.to_string()]), c*2);
+        assert_eq!(__solution2(vec![String::from(n), i.to_string()]), c*2);
+        assert_eq!(__solution2(vec![format!("{}lkjsdfklj{}", n, i.to_string())]), c);
+        assert_eq!(__solution2(vec![format!("{}lkjsdfklj{}", i.to_string(), n)]), c);
+        assert_eq!(__solution2(vec![format!("{}lkj1123456789sdfklj{}", i.to_string(), n)]), c);
+        assert_eq!(__solution2(vec![format!("{}lkjonetwothreefourfklj{}", i.to_string(), n)]), c);
+        assert_eq!(__solution2(vec![format!("{}lkjonetwo98fourfklj{}", i.to_string(), n)]), c);
     }
-    assert_eq!(__solution2(vec![String::from("Two0")]), 22);
-    assert_eq!(__solution2(vec![String::from("2Zero30")]), 23);
-    assert_eq!(__solution2(vec![String::from("zero3")]), 33);
-    assert_eq!(__solution2(vec![String::from("somethingOneis238")]), 18);
-    assert_eq!(__solution2(vec![String::from("one")]), 11);
-    assert_eq!(__solution2(vec![String::from("oneoneone")]), 11);
-    assert_eq!(__solution2(vec![String::from("oneoneone"), String::from("zero3"), String::from("somethingOneis238")]), 62);
+}
+
+pub(crate) fn _solution2(){
+    test_solution_2();
     //println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1-test2")));
-    println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1")));
+    //println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1")));
 }
 
 fn __solution2(input: Vec<String>) -> usize{
     let mut set : HashMap<String, usize>= HashMap::new();
-    let numbers = "one|two|three|four|five|six|seven|eight|nine";
-    //set.insert(String::from("0"), 0);
+    let numbers = "zero|one|two|three|four|five|six|seven|eight|nine";
     for (index, n ) in numbers.split('|').enumerate() {
-        set.insert(String::from(n), index+1);
-        set.insert((index+1).to_string(), index+1);
+        set.insert(String::from(n), index);
+        set.insert((index).to_string(), index);
     }
 
-    let re = Regex::new(&format!(r"({}|[1-9])", numbers)).unwrap();
+    let re = Regex::new(&format!(r"({}|[0-9])", numbers)).unwrap();
 
     let mut acc:usize= 0;
 
