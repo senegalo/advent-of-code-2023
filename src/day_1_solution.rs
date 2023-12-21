@@ -1,22 +1,10 @@
 extern crate regex;
 use regex::Regex;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
 use std::collections::HashMap;
-
-fn _readfile(filename: &str) -> Vec<String> {
-    let file = File::open(filename).unwrap();
-    let reader = BufReader::new(file);
-    let mut out: Vec<String> = Vec::new();
-
-    for (_ , result) in reader.lines().enumerate() {
-       out.insert(0, result.unwrap()) 
-    }
-    return out;
-}
+mod super::utils;
 
 pub(crate) fn _solution1 () {
-    __solution1(_readfile("./src/day-1-input-1"));
+    __solution1(utils::readfile("./src/day-1-input-1"));
 }
 
 fn __solution1(input: Vec<String>) {
