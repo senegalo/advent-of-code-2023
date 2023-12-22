@@ -1,7 +1,7 @@
 extern crate regex;
 use regex::Regex;
 use std::collections::HashMap;
-mod super::utils;
+use super::utils;
 
 pub(crate) fn _solution1 () {
     __solution1(utils::readfile("./src/day-1-input-1"));
@@ -68,8 +68,8 @@ fn test_solution_2(){
 
 pub(crate) fn _solution2(){
     test_solution_2();
-    println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1-test2")));
-    println!("Results Are {}", __solution2(_readfile("./src/day-1-input-1")));
+    println!("Results Are {}", __solution2(utils::readfile("./src/day-1-input-1-test2")));
+    println!("Results Are {}", __solution2(utils::readfile("./src/day-1-input-1")));
 }
 
 fn __solution2(input: Vec<String>) -> usize{
